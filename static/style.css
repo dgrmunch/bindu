@@ -1,0 +1,107 @@
+:root {
+  --bg: #f9fafb;
+  --text: #111827;
+  --link: #2563eb;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --accent: #4f46e5;
+  --badge-bg: #6366f1;
+  --list-bg: #ffffff;
+  --list-text: #111827;
+}
+
+[data-theme='dark'] {
+  --bg: #111827;
+  --text: #f9fafb;
+  --link: #90cdf4;
+  --card: #1f2937;
+  --border: #374151;
+  --accent: #7c3aed;
+  --badge-bg: #4f46e5;
+  --list-bg: #1f2937;
+  --list-text: #f9fafb;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Override Bootstrap's list-group styling */
+.list-group-item {
+  background-color: var(--list-bg) !important;
+  color: var(--list-text) !important;
+  border-color: var(--border) !important;
+}
+
+.container {
+  max-width: 860px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+button, .btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: var(--accent);
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn:hover {
+  background-color: #4338ca;
+}
+
+.badge {
+  background: var(--badge-bg);
+  color: white;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  margin-right: 0.3rem;
+}
+
+#theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 1000;
+}
