@@ -234,6 +234,7 @@ button, .btn {
 }
 
 .badge {
+  text-transform: uppercase;
   background: var(--badge-bg);
   color: white;
   padding: 0.35rem 0.65rem;
@@ -256,10 +257,17 @@ button, .btn {
   z-index: 1000;
 }
 
+ #graph {
+    width: 100%;
+    height: 400px;
+    border: 1px solid var(--badge-bg);
+    margin-top: 2rem;
+  }
+
 blockquote {
   padding: 20px;
-  /* border: 2px dotted gray; */
-  background-color: #f1ebfc;
+  border: 2px dotted gray;
+  background-color: var(--bg);
 }
 
 h1{

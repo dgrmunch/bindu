@@ -97,7 +97,6 @@ def index():
     return render_template('index.html', notes=notes)
 def extract_tags_from_content(content):
     return re.findall(r'(?<!\w)#([\w/-]+)', content)
-
 @app.route('/note/<note_name>')
 def note(note_name):
     note_file = note_map.get(note_name.lower())
@@ -108,12 +107,26 @@ def note(note_name):
 
     tags = extract_tags_from_content(raw_md)
     content, backlinks, forwardlinks = get_note_content(note_name)
+
+    # Combine backlinks and forwardlinks for graph
+    # We make a dict of neighbors: note -> list of linked notes (both directions)
+    graph_nodes = set(backlinks + forwardlinks + [note_name.lower()])
+    edges = []
+
+    for src in backlinks:
+        edges.append({"from": src, "to": note_name.lower()})  # backlink edge
+
+    for tgt in forwardlinks:
+        edges.append({"from": note_name.lower(), "to": tgt})  # forwardlink edge
+
     return render_template('note.html',
                            note_name=note_name,
                            content=content,
                            backlinks=backlinks,
                            forwardlinks=forwardlinks,
-                           tags=tags)
+                           tags=tags,
+                           graph_nodes=list(graph_nodes),
+                           graph_edges=edges)
 
 
 @app.route('/tag/<path:tag>')
