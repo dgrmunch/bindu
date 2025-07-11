@@ -36,8 +36,43 @@
         {% endfor %}
     {% endif %}
 
-    <h2>Note connections graph</h2>
-<div id="graph"></div>
+     </div>
+
+      <div class="card card-body mb-4">
+        {{ content | safe }}
+      </div>
+
+      <h4>🔗 Linked from</h4>
+      {% if backlinks %}
+      <ul class="list-group mb-4">
+        {% for link in backlinks %}
+          <li class="list-group-item">
+            <a href="{{ url_for('note', note_name=link) }}">{{ link }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No notes link here.</p>
+      {% endif %}
+
+      <h4>🔗 Linked to</h4>
+      {% if forwardlinks %}
+      <ul class="list-group">
+        {% for link in forwardlinks %}
+          <li class="list-group-item">
+            <a href="{{ url_for('note', note_name=link) }}">{{ link }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>This note does not link to any other notes.</p>
+      {% endif %}
+
+
+    
+     <h4>🔗 Maṇḍala</h4> 
+  <div id="graph"></div>
+
 
 <script type="text/javascript">
   const rawNodes = {{ graph_nodes | default([]) | tojson | safe }};
@@ -47,16 +82,16 @@
     rawNodes.map(note_id => ({
       id: note_id,
       label: note_id,
-      shape: 'circle',
+      shape: 'dot',
       color: {
-        background: '#6c757d',
-        border: '#343a40',
+        background: 'white',
+        border: '#af86f4',
         highlight: {
-          background: '#495057',
-          border: '#212529'
+          background: '#af86f4',
+          border: '#af86f4'
         }
       },
-      font: { color: 'white' }
+      font: { color: '#af86f4', size: 20 }
     }))
   );
 
@@ -98,38 +133,7 @@
     }
   });
 </script>
-
-     </div>
-
-      <div class="card card-body mb-4">
-        {{ content | safe }}
-      </div>
-
-      <h4>🔗 Linked from</h4>
-      {% if backlinks %}
-      <ul class="list-group mb-4">
-        {% for link in backlinks %}
-          <li class="list-group-item">
-            <a href="{{ url_for('note', note_name=link) }}">{{ link }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-      {% else %}
-      <p>No notes link here.</p>
-      {% endif %}
-
-      <h4>🔗 Linked to</h4>
-      {% if forwardlinks %}
-      <ul class="list-group">
-        {% for link in forwardlinks %}
-          <li class="list-group-item">
-            <a href="{{ url_for('note', note_name=link) }}">{{ link }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-      {% else %}
-      <p>This note does not link to any other notes.</p>
-      {% endif %}
     </div>
+    
   </body>
 </html>
