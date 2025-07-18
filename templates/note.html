@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>{{ note_name }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -26,53 +28,30 @@
     <button id="theme-toggle" onclick="toggleTheme()">🌓</button>
   </head>
   <body>
-    <div class="container py-4">
+    <div class="container-fluid">
+
+      <div class="top-section">
       <a href="{{ url_for('index') }}" class="btn btn-secondary mb-3">← Back to Index</a>
-    <div class="top-section">
-   <a class="badge bg-primary text-decoration-none">    {{ note_name }}</a>
-    {% if tags %}
-        {% for tag in tags %}
-          <a href="{{ url_for('tag_view', tag=tag|urlencode) }}" class="badge bg-secondary text-decoration-none">#{{ tag }}</a>
-        {% endfor %}
-    {% endif %}
+   
+  <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#collapseLinkedBindus" role="button" aria-expanded="false" aria-controls="collapseExample">
+   Linked bindus
+  </a>
+  <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#collapseMandala" role="button" aria-expanded="false" aria-controls="collapseExample">
+Maṇḍala
+  </a></div>
+     
 
-     </div>
-
-      <div class="card card-body mb-4">
-        {{ content | safe }}
-      </div>
-
-      <h4>🔗 Linked from</h4>
-      {% if backlinks %}
-      <ul class="list-group mb-4">
-        {% for link in backlinks %}
-          <li class="list-group-item">
-            <a href="{{ url_for('note', note_name=link) }}">{{ link }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-      {% else %}
-      <p>No notes link here.</p>
-      {% endif %}
-
-      <h4>🔗 Linked to</h4>
-      {% if forwardlinks %}
-      <ul class="list-group">
-        {% for link in forwardlinks %}
-          <li class="list-group-item">
-            <a href="{{ url_for('note', note_name=link) }}">{{ link }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-      {% else %}
-      <p>This note does not link to any other notes.</p>
-      {% endif %}
-
-
+      <div class="row">
+    <div class="col-4">
+      
+<div class="collapse show" id="collapseMandala">
     
-     <h4>🔗 Maṇḍala</h4> 
-  <div id="graph"></div>
-
+  <img id="logo" src="/static/logo.png" width="100%"/>
+      {% if backlinks or forwardlinks %}
+      <div id="graph"></div>
+        {% else %}
+      <p>This bindu is not connected to others, so there is no Maṇḍala.</p>
+      {% endif %}
 
 <script type="text/javascript">
   const rawNodes = {{ graph_nodes | default([]) | tojson | safe }};
@@ -133,6 +112,53 @@
     }
   });
 </script>
+
+    <h4>🔗 Linked from these bindus</h4>
+      {% if backlinks %}
+      <ul class="list-group mb-4">
+        {% for link in backlinks %}
+          <li class="list-group-item">
+            <a href="{{ url_for('note', note_name=link) }}">{{ link }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No bindu link here.</p>
+      {% endif %}
+
+      <h4>🔗 Linked to these bindus</h4>
+      {% if forwardlinks %}
+      <ul class="list-group">
+        {% for link in forwardlinks %}
+          <li class="list-group-item">
+            <a href="{{ url_for('note', note_name=link) }}">{{ link }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>This bindu does not link to any other bindus.</p>
+      {% endif %}
+</div>
+
+
+    </div>
+    <div class="col-8">
+        
+         <div class="card card-body mb-4">
+           <div class="top-section">
+    {% if tags %}
+        {% for tag in tags %}
+          <a href="{{ url_for('tag_view', tag=tag|urlencode) }}" class="badge bg-secondary text-decoration-none">#{{ tag }}</a>
+        {% endfor %}
+    {% endif %}
+     </div>
+      <h1> {{ note_name }}</h1>
+  
+        {{ content | safe }}
+      </div>
+    </div>
+  </div>
+
     </div>
     
   </body>
